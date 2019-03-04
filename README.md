@@ -1,4 +1,4 @@
-# 三島合宿日誌 <img src='img/IMG_0581.jpg' width=300>
+# 三島合宿日誌 <img src='img/IMG_0581.jpg'  width="30%" align="right">
 
 三島合宿　2019/03/04-09
 
