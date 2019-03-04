@@ -67,3 +67,7 @@ salmon quant -i salmon_index_mouse \
       -o salmon_output_SRR1269711 \
       --gcBias
 ```
+
+これは動いたが、[https://github.com/yyoshiaki/auto_counttable_maker/blob/master/MakeCountTable_Illumina_trimgalore_SRR.sh#L316-L341](https://github.com/yyoshiaki/auto_counttable_maker/blob/master/MakeCountTable_Illumina_trimgalore_SRR.sh#L316-L341)動かず。。。
+
+`combinelab/salmon:0.12.0`にしてもだめ。
