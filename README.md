@@ -46,9 +46,11 @@ fasterq-dump DRR092257
 
 ## QuickLookのプラグインがいっぱいある
 
-小野さん発信。
+[小野さん](https://github.com/hiromasaono)発信。便利。
 
 [Mac の QuickLook で プラグインをまとめてインストールする](https://qiita.com/exabugs/items/9a392077c492ed97950d)
+
+![img](img/preview_md.png)
 
 ## salmonがmacで動かない問題
 
