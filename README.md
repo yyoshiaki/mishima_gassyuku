@@ -2,8 +2,6 @@
 
 三島合宿　2019/03/04-09
 
-
-
 ## Transcript assembly
 
 ### trinity install to mac
@@ -31,6 +29,42 @@ sudo ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/ma
 fasterq-dump DRR092257
 ```
 
+### githubからソースを直接ダウンロード
+
+[teratail : githubからファイル単体をclone(DL)できる？](https://teratail.com/questions/14124)
+
+```
+curl -O https://github.com/bonohu/denovoTA/blob/master/for_trinity.pl
+```
+
+->
+
+```
+curl -O https://raw.githubusercontent.com/bonohu/denovoTA/master/for_trinity.pl
+```
+
+### trinity
+
+Trinity v2.8.3だとsalmonが要求された。
+
+```
+conda create -n salmon salmon # v0.12.0
+conda activate salmon
+```
+
+```
+fastq-dump --defline-seq '@$sn[_$rn]/$ri' --split-files DRR092257 # fasterq-dumpは--defline-seq使えず
+```
+
+zless DRR092257_1.fq.gz
+@HWI-ST1290:283:C6N4HACXX:3:1101:1969:2000/
+
+zless DRR092257_1_val_1.fq.gz
+@DRR092257.1 HWI-ST1290:283:C6N4HACXX:3:1101:1969:2000 length=100
+
+zless test/DRR092257_1.fastq.gz    
+@HWI-ST1290:283:C6N4HACXX:3:1101:1969:2000/1
+
 ## byobu
 
 一つのサーバーのshellに複数端末でアクセスするとして、（sshなど）共通のプロセスが見れる。ローカルの接続が切れても安心。
@@ -40,9 +74,25 @@ fasterq-dump DRR092257
 
 ### コマンド
 
-- F12 + c : 新しいWindow
-- F12 + p : previous Window
-- F12 + n : next Window
+[https://linuxfan.info/terminal-with-byobu](https://linuxfan.info/terminal-with-byobu)
+
+- F2 ／ エスケープキー C : 新しいウィンドウを作る
+- F3 ／ エスケープキー P ／ Alt + ← : 前のウィンドウに切り替える
+- F4 ／ エスケープキー N ／ Alt + → : 次のウィンドウに切り替える
+- F5 : プロファイルをリロードする
+- F6 ／ エスケープキー D : デタッチする
+- F7 : スクロールバック／検索モードに切り替える
+- F8 : ウィンドウのタイトルを変更する
+- F9 : Byobuの設定メニューを表示する
+- Alt-Pageup : 上にスクロール
+- Alt-Down : 下にスクロール
+- Shift-F2 : ウィンドウを横に分割
+- Ctrl-F2 : ウィンドウを縦に分割
+- Shift-F3 : 次のスプリットに切り替える
+- Shift-F4 : 前のスプリットに切り替える
+
+しかしMBPで落ちまくるのでひとまず放置。落ちるタイミングはconfigを開こうとしたとき。
+
 
 ## QuickLookのプラグインがいっぱいある
 
@@ -71,3 +121,13 @@ salmon quant -i salmon_index_mouse \
 これは動いたが、[https://github.com/yyoshiaki/auto_counttable_maker/blob/master/MakeCountTable_Illumina_trimgalore_SRR.sh#L316-L341](https://github.com/yyoshiaki/auto_counttable_maker/blob/master/MakeCountTable_Illumina_trimgalore_SRR.sh#L316-L341)動かず。。。
 
 `combinelab/salmon:0.12.0`にしてもだめ。
+
+indexをつくる途中で止まっている。
+
+
+## kallisto output -> idep
+
+tximportでまとめる。
+[https://github.com/yyoshiaki/auto_counttable_maker/blob/master/tximport_R.R](https://github.com/yyoshiaki/auto_counttable_maker/blob/master/tximport_R.R)
+
+ensemblはいろんな生物種を扱う人にはいい。確かに。人とマウスならやっぱり[GENCODE](https://www.gencodegenes.org/)。
