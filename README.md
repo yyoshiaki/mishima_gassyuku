@@ -122,10 +122,16 @@ ensemblはいろんな生物種を扱う人にはいい。確かに。人とマ�
 
 ensemblはbiomartでいろんなテーブルが作れる。transcriptのversion付のもの（ENST00000254657.3）がrow nameになるのでめんどくさい。やはり、ヒト、マウスならGENCODEかな。
 
-## [GENDO](https://gendoo.dbcls.jp/)
+## [GENDOO](https://gendoo.dbcls.jp/)
 
 MeSH vocabularyをOMIMを使って遺伝子と紐づけしたデータベース。
 
 > Nakazato, T., Bono, H., Matsuda, H. & Takagi, T. Gendoo: Functional profiling of gene and disease features using MeSH vocabulary. Nucleic Acids Res. 37, W166–W169 (2009).
 
 ![img](http://motdb.dbcls.jp/?plugin=ref&page=AJACS7%2Fthecla&src=nar.fig1.png)
+
+## [cDNA viewer](http://fantom3.gsc.riken.jp/public/annotate/main.cgi?masterid=random)
+
+FANTOMの可視化。今のようなgenomeに対する可視化ではなく、cDNAに対する可視化を行っていた。randomにしていたのは開発テスト用。
+
+![img](img/cDNAviewer.png)
