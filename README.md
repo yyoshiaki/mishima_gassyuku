@@ -1,8 +1,12 @@
 # 三島合宿日誌 <img src='img/IMG_0581.jpg'  width="30%" align="right">
 
-三島合宿　2019/03/04-09
+三島合宿　2019/03/04-08
+
+[坊農さん](https://twitter.com/bonohu)のご厚意で一週間三島の遺伝研で合宿させていただけることに。雪化粧の富士山と咲き始めた桜が一度に楽しめる贅沢な季節です。その中での学びをまとめます。
 
 ## Transcript assembly
+
+transcriptomeへの理解を得ようとtranscript assemblyを試みる。
 
 ### trinity install to mac
 
@@ -120,11 +124,48 @@ tximportでまとめる。
 
 ensemblはいろんな生物種を扱う人にはいい。確かに。人とマウスならやっぱり[GENCODE](https://www.gencodegenes.org/)。
 
-ensemblはbiomartでいろんなテーブルが作れる。transcriptのversion付のもの（ENST00000254657.3）がrow nameになるのでめんどくさい。やはり、ヒト、マウスならGENCODEかな。
+ensemblはbiomartでいろんなテーブルが作れる。transcriptのversion付のもの（ENST00000254657.3）がrow nameになるのでめんどくさい。.以下をperlで落とすやり方も聞いたが、tximportで落とすならめんどくさい。やはり、ヒト、マウスならGENCODEかな。
+
+ちなみに、salmon or sailfishなら、mikelove氏の[tximeta](https://bioconductor.org/packages/release/bioc/vignettes/tximeta/inst/doc/tximeta.html)（tximportの後継）で一発。kallistoは対応していない。
+
+```
+dir <- system.file("extdata/salmon_dm", package="tximportData")
+# here gzipped, normally these are not
+files <- file.path(dir, "SRR1197474_cdna", "quant.sf.gz")
+# file.exists(files)
+
+coldata <- data.frame(files, names="SRR1197474", condition="A", stringsAsFactors=FALSE)
+# coldata
+
+library(tximeta)
+se <- tximeta(coldata)
+
+gse <- summarizeToGene(se)
+```
+
+DESeq2への受け渡しもすぐ。
+
+```
+suppressPackageStartupMessages(library(DESeq2))
+# here there is a single sample so we use ~1.
+# expect a warning that there is only a single sample...
+suppressWarnings({dds <- DESeqDataSet(gse, ~1)})
+## using counts and average transcript lengths from tximeta
+dds <- estimateSizeFactors(dds)
+```
+
+## R update on Mac
+
+久々のローカル環境で、Rが3.4だったため、アップデートを試みる。
+
+1. [Rが3.5.0へメジャーアップデートしたので簡単アップデート](https://makoto-shimizu.com/news/r-3-5-is-released/) : だめだった
+2. [https://stackoverflow.com/questions/13656699/update-r-using-rstudio](https://stackoverflow.com/questions/13656699/update-r-using-rstudio)
+
+[https://cran.r-project.org/](https://cran.r-project.org/)から落とす。
 
 ## [GENDOO](https://gendoo.dbcls.jp/)
 
-MeSH vocabularyをOMIMを使って遺伝子と紐づけしたデータベース。
+MeSH vocabularyをOMIMを使って遺伝子と紐づけしたデータベース。gene setに対する応用はchi2 distの再生性を使えばOK?（メモ）
 
 > Nakazato, T., Bono, H., Matsuda, H. & Takagi, T. Gendoo: Functional profiling of gene and disease features using MeSH vocabulary. Nucleic Acids Res. 37, W166–W169 (2009).
 
@@ -135,3 +176,30 @@ MeSH vocabularyをOMIMを使って遺伝子と紐づけしたデータベース�
 FANTOMの可視化。今のようなgenomeに対する可視化ではなく、cDNAに対する可視化を行っていた。randomにしていたのは開発テスト用。
 
 ![img](img/cDNAviewer.png)
+
+ちなみにFANTOM話でもう一つ震えるような話を聞いた。
+
+> 山中伸弥教授らは、人工多能性幹細胞(iPS細胞)の樹立研究において、FANTOMデータベースから、細胞の初期化因子候補として24種の転写因子を選定しました
+
+[FANTOM](http://fantom.gsc.riken.jp/jp/)
+
+[スライド](https://www.slideshare.net/sayamatcher/dbcls-sponsored-session-introduction)も
+
+## [gggenome](http://gggenome.dbcls.jp/), [ggrna](http://ggrna.dbcls.jp/)
+
+少し前から使ってたが、作者の[meso_cacase](https://twitter.com/meso_cacase)さんと出会う。恐るべしDBCLS。ちなみに個人的な好みはpandasでの呼び出し。[scikit-bio](http://scikit-bio.org/)と組み合わせて使った。
+
+```
+import pandas as pd
+
+df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', sep='\t', comment='#')
+```
+
+## ドーミーイン三島
+
+屋上の露天風呂から富士山がみえる（らしい）。場所も三島から歩いて5分以内でいい感じ。どうやらここが正解と思っていいらしい。ただし、初日回線が100kb/sでgtfのダウンロードすらままならなかった。その後は比較的速く、隣人のネット状況に依存するように思う。優先との速度比較を行った。
+
+- 無線 :
+- 有線 :
+
+しまった、コネクタを遺伝研に忘れた。これは明日。
