@@ -52,18 +52,7 @@ conda create -n salmon salmon # v0.12.0
 conda activate salmon
 ```
 
-```
-fastq-dump --defline-seq '@$sn[_$rn]/$ri' --split-files DRR092257 # fasterq-dumpは--defline-seq使えず
-```
-
-zless DRR092257_1.fq.gz
-@HWI-ST1290:283:C6N4HACXX:3:1101:1969:2000/
-
-zless DRR092257_1_val_1.fq.gz
-@DRR092257.1 HWI-ST1290:283:C6N4HACXX:3:1101:1969:2000 length=100
-
-zless test/DRR092257_1.fastq.gz    
-@HWI-ST1290:283:C6N4HACXX:3:1101:1969:2000/1
+自分のMBPだけらしい。なぜ？
 
 ## byobu
 
@@ -124,10 +113,19 @@ salmon quant -i salmon_index_mouse \
 
 indexをつくる途中で止まっている。
 
-
 ## kallisto output -> idep
 
 tximportでまとめる。
 [https://github.com/yyoshiaki/auto_counttable_maker/blob/master/tximport_R.R](https://github.com/yyoshiaki/auto_counttable_maker/blob/master/tximport_R.R)
 
 ensemblはいろんな生物種を扱う人にはいい。確かに。人とマウスならやっぱり[GENCODE](https://www.gencodegenes.org/)。
+
+ensemblはbiomartでいろんなテーブルが作れる。transcriptのversion付のもの（ENST00000254657.3）がrow nameになるのでめんどくさい。やはり、ヒト、マウスならGENCODEかな。
+
+## [GENDO](https://gendoo.dbcls.jp/)
+
+MeSH vocabularyをOMIMを使って遺伝子と紐づけしたデータベース。
+
+> Nakazato, T., Bono, H., Matsuda, H. & Takagi, T. Gendoo: Functional profiling of gene and disease features using MeSH vocabulary. Nucleic Acids Res. 37, W166–W169 (2009).
+
+![img](http://motdb.dbcls.jp/?plugin=ref&page=AJACS7%2Fthecla&src=nar.fig1.png)
