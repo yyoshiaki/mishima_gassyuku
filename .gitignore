@@ -3,4 +3,4 @@ TA/multiqc*
 TA/trini*
 TA/test
 *ipynb_checkpoints*
-*.DS_Store*
+.DS_Store

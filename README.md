@@ -87,7 +87,9 @@ blastdbcmd -db trinity_rslt -entry_batch longest_orfs.Forkhead.ids > longest_orf
 
 ## [DBCLSのSRAデータベース](http://sra.dbcls.jp/index.html)を日本最速で試す。
 
-爆速になってました。
+爆速になってました。これでシーケンスデータをサクサク検索、ダウンロードできる。とても嬉しい。
+
+![img](img/dbcls_sra.png)
 
 
 ## byobu
@@ -241,10 +243,11 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', se
 
 屋上の露天風呂から富士山がみえる（らしい）。場所も三島から歩いて5分以内でいい感じ。どうやらここが正解と思っていいらしい。ただし、初日回線が100kb/sでgtfのダウンロードすらままならなかった。その後は比較的速く、隣人のネット状況に依存するように思う。優先との速度比較を行った。
 
-- 無線 :
-- 有線 :
+- 無線 : 8-12Mb/s
+- 有線 : 計測できず。 -> 30Mb/s
 
 しまった、コネクタを遺伝研に忘れた。これは明日。
+-> 借りたコネクタがMBP(2016 late)では認識されなかった。平岡のMBP(2015)で測れた。
 
 ## 2400c
 
@@ -253,7 +256,6 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', se
 ## loomの話
 
 とりあえずcsv->loom。scanpyでやってみようかな。とりあえず、[AOE](http://aoe.dbcls.jp/)で検索したGEOのsingle cell RNA-seqのテーブルを読み込み、loomで保存してみる。[notebook](csv2loom/scanpy.ipynb)にまとめた。
-
 
 ## juliaインストール
 
@@ -280,6 +282,8 @@ Pkg.add("IJulia")
 
 [https://github.com/JuliaLang/IJulia.jl](https://github.com/JuliaLang/IJulia.jl)
 
+ubuntuの方は`~/Program`に[https://julialang.org/downloads/index.html](https://julialang.org/downloads/index.html)でダウンロード、解凍して、.bashrcのpathを1.1に置き換えた。
+
 ## cellfishing.jl
 
 [https://www.biorxiv.org/content/biorxiv/early/2018/07/25/374462.full.pdf](https://www.biorxiv.org/content/biorxiv/early/2018/07/25/374462.full.pdf)
@@ -291,8 +295,19 @@ julia1.1でインストール。
 $ julia -e 'using Pkg; Pkg.add(PackageSpec(url="git://github.com/bicycle1885/CellFishing.jl.git"))'
 ```
 
-入った入った。
-
 ```
 $ julia -e 'using Pkg; Pkg.test("CellFishing")'
 ```
+
+入った入った。
+
+## auto_counttable_maker
+
+アドバイスをいただく。
+
+- ['--validateMappings' option to 'salmon quant' #16](https://github.com/yyoshiaki/auto_counttable_maker/issues/16)
+- [fasterq-dump #17](https://github.com/yyoshiaki/auto_counttable_maker/issues/17)
+
+[--validatemappings](https://salmon.readthedocs.io/en/latest/salmon.html#validatemappings)
+
+> One potential artifact that may arise from alignment-free mapping techniques is spurious mappings. These may either be reads that do not arise from some target being quantified, but nonetheless exhibit some match against them (e.g. contaminants) or, more commonly, mapping a read to a larger set of quantification targets than would be supported by an optimal or near-optimal alignment.
