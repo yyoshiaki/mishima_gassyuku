@@ -2,3 +2,5 @@ TA/DRR*
 TA/multiqc*
 TA/trini*
 TA/test
+*ipynb_chckpoints*
+*.DS_Store*

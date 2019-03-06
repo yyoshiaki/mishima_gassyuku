@@ -78,8 +78,10 @@ grep -c \> Trinity.fasta
 
 ```
 makeblastdb -in longest_orfs.pep -out trinity_rslt -dbtype prot -hash_index -parse_seqids
-blastdbcmd -db trinity_rslt -entry_batch longest_orfs.SOD_Cu.ids > longest_orfs.SOD_Cu.pep
+blastdbcmd -db trinity_rslt -entry_batch longest_orfs.Forkhead.ids > longest_orfs.Forkhead.pep
 ```
+
+ちなみに配列のデータベースはUniprotがいいよとのこと。
 
 ## byobu
 
@@ -241,4 +243,4 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', se
 
 ## loomの話
 
-とりあえずcsv->loom。scanpyでやってみようかな。とりあえず、[AOE](http://aoe.dbcls.jp/)で検索したGEOのsingle cell RNA-seqのテーブルを読み込み、loomで保存してみる。
+とりあえずcsv->loom。scanpyでやってみようかな。とりあえず、[AOE](http://aoe.dbcls.jp/)で検索したGEOのsingle cell RNA-seqのテーブルを読み込み、loomで保存してみる。[notebook](csv2loom/scanpy.ipynb)にまとめた。
