@@ -249,6 +249,8 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', se
 しまった、コネクタを遺伝研に忘れた。これは明日。
 -> 借りたコネクタがMBP(2016 late)では認識されなかった。平岡のMBP(2015)で測れた。
 
+洗濯はただ。感想は20分100円、100円硬貨限定。
+
 ## 2400c
 
 ![img](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/PowerBook2400c_180.jpg/300px-PowerBook2400c_180.jpg)
