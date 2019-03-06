@@ -122,7 +122,7 @@ blastdbcmd -db trinity_rslt -entry_batch longest_orfs.SOD_Cu.ids > longest_orfs.
 
 [小野さん](https://github.com/hiromasaono)作。組織特異的な遺伝子発現量や、オントロジー、gene familyなどがまとまっている。CAGEがとても使いやすい。
 
-![img]()
+![img](img/refex.png)
 
 ESTなる実験手法が昔は使われていたらしいことも学ぶ。
 
