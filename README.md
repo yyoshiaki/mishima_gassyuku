@@ -265,7 +265,7 @@ dmgをダウンロードしてしまったので、
 export PATH=/Applications/Julia-1.1.app/Contents/Resources/julia/bin:$PATH
 ```
 
-で``~/.bash_profile`にpathを通した。本当は、
+で`~/.bash_profile`にpathを通した。本当は、
 
 ```
 $ brew cask install julia
@@ -286,6 +286,7 @@ Pkg.add("IJulia")
 [https://github.com/bicycle1885/CellFishing.jl](https://github.com/bicycle1885/CellFishing.jl)
 
 julia1.1でインストール。
+
 ```
 $ julia -e 'using Pkg; Pkg.add(PackageSpec(url="git://github.com/bicycle1885/CellFishing.jl.git"))'
 ```
