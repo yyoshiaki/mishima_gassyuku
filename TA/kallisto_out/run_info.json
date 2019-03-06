@@ -1,0 +1,13 @@
+{
+	"n_targets": 28383,
+	"n_bootstraps": 0,
+	"n_processed": 12298085,
+	"n_pseudoaligned": 11896786,
+	"n_unique": 6818852,
+	"p_pseudoaligned": 96.7,
+	"p_unique": 55.4,
+	"kallisto_version": "0.44.0",
+	"index_version": 10,
+	"start_time": "Wed Mar  6 14:41:29 2019",
+	"call": "kallisto quant -i /Users/yasumizuyoshiaki/bioinformatics/mishima_gassyuku/TA/trinity_out_dir/Trinity.fasta.kallisto_idx -t 4 -o kallisto_out /dev/fd/63 /dev/fd/62"
+}

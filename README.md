@@ -70,7 +70,16 @@ $ grep > Trinity.fasta  | wc -l
 grep -c \> Trinity.fasta
 ```
 
-でした。`-c`でカウント。28383 transcriptsでした。ちなみに中間ファイルは残っていたので同じコマンド（trinity）を実行し直すとすぐ戻った。
+でした。`-c`でカウント。28383 transcriptsでした。ちなみに中間ファイルは残っていたので同じコマンド（trinity）を実行し直すとすぐ戻った。バックアップは取りましょう。
+
+### blast
+
+作ったtranscriptのfastaを作って`makeblastdb`でblast databaseを作った。これでUniprotのfastaに対してローカルにblastのデータベースを作っておけば、いつでもblast検索がかけられる。配列だけではなく、例えばid listからtranscriptの配列を取り出したりも出来る。
+
+```
+makeblastdb -in longest_orfs.pep -out trinity_rslt -dbtype prot -hash_index -parse_seqids
+blastdbcmd -db trinity_rslt -entry_batch longest_orfs.SOD_Cu.ids > longest_orfs.SOD_Cu.pep
+```
 
 ## byobu
 
@@ -225,3 +234,11 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', se
 - 有線 :
 
 しまった、コネクタを遺伝研に忘れた。これは明日。
+
+## 2400c
+
+![img](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/PowerBook2400c_180.jpg/300px-PowerBook2400c_180.jpg)
+
+## loomの話
+
+とりあえずcsv->loom。scanpyでやってみようかな。とりあえず、[AOE](http://aoe.dbcls.jp/)で検索したGEOのsingle cell RNA-seqのテーブルを読み込み、loomで保存してみる。
