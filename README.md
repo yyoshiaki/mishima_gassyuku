@@ -58,11 +58,19 @@ conda activate salmon
 
 自分のMBPだけらしい。なぜ？
 
-ほぼ丸二日かかって完成！
+ほぼ丸二日かかって完成！！ -> transcriptの数を数えようとしたら間違って全て消した。犯人は
 
 ```
 $ grep > Trinity.fasta  | wc -l
 ```
+
+でした。正しくは。
+
+```
+grep -c \> Trinity.fasta
+```
+
+でした。`-c`でカウント。28383 transcriptsでした。ちなみに中間ファイルは残っていたので同じコマンド（trinity）を実行し直すとすぐ戻った。
 
 ## byobu
 
