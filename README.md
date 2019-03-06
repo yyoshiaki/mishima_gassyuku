@@ -83,6 +83,13 @@ blastdbcmd -db trinity_rslt -entry_batch longest_orfs.Forkhead.ids > longest_orf
 
 ちなみに配列のデータベースはUniprotがいいよとのこと。
 
+一通り終わった！！！
+
+## [DBCLSのSRAデータベース](http://sra.dbcls.jp/index.html)を日本最速で試す。
+
+爆速になってました。
+
+
 ## byobu
 
 一つのサーバーのshellに複数端末でアクセスするとして、（sshなど）共通のプロセスが見れる。ローカルの接続が切れても安心。
@@ -228,6 +235,8 @@ import pandas as pd
 df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', sep='\t', comment='#')
 ```
 
+実験医学の別刷りもらった。わーい。
+
 ## ドーミーイン三島
 
 屋上の露天風呂から富士山がみえる（らしい）。場所も三島から歩いて5分以内でいい感じ。どうやらここが正解と思っていいらしい。ただし、初日回線が100kb/sでgtfのダウンロードすらままならなかった。その後は比較的速く、隣人のネット状況に依存するように思う。優先との速度比較を行った。
@@ -244,3 +253,45 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', se
 ## loomの話
 
 とりあえずcsv->loom。scanpyでやってみようかな。とりあえず、[AOE](http://aoe.dbcls.jp/)で検索したGEOのsingle cell RNA-seqのテーブルを読み込み、loomで保存してみる。[notebook](csv2loom/scanpy.ipynb)にまとめた。
+
+
+## juliaインストール
+
+[https://julialang.org/](https://julialang.org/)
+
+dmgをダウンロードしてしまったので、
+
+```
+export PATH=/Applications/Julia-1.1.app/Contents/Resources/julia/bin:$PATH
+```
+
+で``~/.bash_profile`にpathを通した。本当は、
+
+```
+$ brew cask install julia
+```
+
+だとpathが通ってよかった。jupyter labで読めるようにIJuliaをインストール。
+
+```
+using Pkg
+Pkg.add("IJulia")
+```
+
+[https://github.com/JuliaLang/IJulia.jl](https://github.com/JuliaLang/IJulia.jl)
+
+## cellfishing.jl
+
+[https://www.biorxiv.org/content/biorxiv/early/2018/07/25/374462.full.pdf](https://www.biorxiv.org/content/biorxiv/early/2018/07/25/374462.full.pdf)
+[https://github.com/bicycle1885/CellFishing.jl](https://github.com/bicycle1885/CellFishing.jl)
+
+julia1.1でインストール。
+```
+$ julia -e 'using Pkg; Pkg.add(PackageSpec(url="git://github.com/bicycle1885/CellFishing.jl.git"))'
+```
+
+入った入った。
+
+```
+$ julia -e 'using Pkg; Pkg.test("CellFishing")'
+```
