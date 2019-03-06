@@ -58,6 +58,12 @@ conda activate salmon
 
 自分のMBPだけらしい。なぜ？
 
+ほぼ丸二日かかって完成！
+
+```
+$ grep > Trinity.fasta  | wc -l
+```
+
 ## byobu
 
 一つのサーバーのshellに複数端末でアクセスするとして、（sshなど）共通のプロセスが見れる。ローカルの接続が切れても安心。
@@ -89,11 +95,19 @@ conda activate salmon
 
 ## QuickLookのプラグインがいっぱいある
 
-[小野さん](https://github.com/hiromasaono)発信。便利。
+かの[togotv](http://togotv.dbcls.jp/)で[小野さん](https://github.com/hiromasaono)発信。便利。
 
 [Mac の QuickLook で プラグインをまとめてインストールする](https://qiita.com/exabugs/items/9a392077c492ed97950d)
 
 ![img](img/preview_md.png)
+
+## [Refex](http://refex.dbcls.jp/index.php?lang=ja)
+
+[小野さん](https://github.com/hiromasaono)作。組織特異的な遺伝子発現量や、オントロジー、gene familyなどがまとまっている。CAGEがとても使いやすい。
+
+![img]()
+
+ESTなる実験手法が昔は使われていたらしいことも学ぶ。
 
 ## salmonがmacで動かない問題
 
@@ -161,7 +175,7 @@ dds <- estimateSizeFactors(dds)
 1. [Rが3.5.0へメジャーアップデートしたので簡単アップデート](https://makoto-shimizu.com/news/r-3-5-is-released/) : だめだった
 2. [https://stackoverflow.com/questions/13656699/update-r-using-rstudio](https://stackoverflow.com/questions/13656699/update-r-using-rstudio)
 
-[https://cran.r-project.org/](https://cran.r-project.org/)から落とす。
+[https://cran.r-project.org/](https://cran.r-project.org/)から落とす。恐れずにインストーラーで入れてみた。Rstudioを再起動したら入ってた。その後、`update.packages() `でパッケージのアップデート。
 
 ## [GENDOO](https://gendoo.dbcls.jp/)
 
