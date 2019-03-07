@@ -159,6 +159,17 @@ salmon quant -i salmon_index_mouse \
 
 indexをつくる途中で止まっている。
 
+そもそも、公式のcontainerがdockerfileをつけていないのが今ひとつ。しかし、おととい0.13.0に上がっていたのでそれで解決されていることを期待。
+
+[https://hub.docker.com/r/combinelab/salmon/tags](https://hub.docker.com/r/combinelab/salmon/tags)
+
+無理だった。
+
+condaのほうが行けたので、いっそOS判別してmacだけcondaで動くようにしようかな。
+[Qiita : シェルスクリプトでOSを判別する](https://qiita.com/UmedaTakefumi/items/fe02d17264de6c78443d)
+
+macで割り振るメモリを増やすと動いた！！[DBCLS太田さん](https://github.com/inutano)に教えてもらった。詳しくは[https://github.com/yyoshiaki/auto_counttable_maker/blob/master/README.md#mac%E3%81%AE%E3%81%B2%E3%81%A8](https://github.com/yyoshiaki/auto_counttable_maker/blob/master/README.md#mac%E3%81%AE%E3%81%B2%E3%81%A8)。
+
 ## kallisto output -> idep
 
 tximportでまとめる。
@@ -259,6 +270,30 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', se
 
 とりあえずcsv->loom。scanpyでやってみようかな。とりあえず、[AOE](http://aoe.dbcls.jp/)で検索したGEOのsingle cell RNA-seqのテーブルを読み込み、loomで保存してみる。[notebook](csv2loom/scanpy.ipynb)にまとめた。
 
+ちなみにmacでは
+
+```
+loompy requires Python '>=3.6' but the running Python is 3.5.4
+```
+
+というショックな表示が出た。
+
+```
+conda install python=3.6
+```
+
+3.7は何個かのライブラリが嫌だと言っていたので妥協したのだが、ずっとupdateできなかったので結局新しい環境を作る。。
+
+```
+conda create -n py36_scanpy python=3.6
+
+conda install seaborn scikit-learn statsmodels numba pytables
+conda install -c conda-forge python-igraph louvain
+
+pip install scanpy
+```
+
+
 ## juliaインストール
 
 [https://julialang.org/](https://julialang.org/)
@@ -301,7 +336,33 @@ $ julia -e 'using Pkg; Pkg.add(PackageSpec(url="git://github.com/bicycle1885/Cel
 $ julia -e 'using Pkg; Pkg.test("CellFishing")'
 ```
 
-入った入った。
+入った入った。ubuntuもいれたった。
+
+以下[bonohu blog](https://bonohu.github.io/cellfishing.html)より。一部改変。実行ファイルはgithubから持ってくる。
+
+```
+curl -O https://raw.githubusercontent.com/bicycle1885/CellFishing.jl/master/bin/cellfishing
+chmod 755 cellfishing
+julia -e 'import Pkg; Pkg.add("HDF5")'
+julia -e 'import Pkg; Pkg.add("DocOpt")'
+```
+
+データは[Planaria Single Cell Atlas website](https://shiny.mdc-berlin.de/psca/)。
+
+### Getting data for the search
+
+```
+curl -O http://bimsbstatic.mdc-berlin.de/rajewsky/PSCA/all_sgete_4GU75.loom.gz
+gzip -dc all_sgete_4GU75.loom.gz > Plass2018.dge.loom
+```
+After getting the file, I successfully ran the code!
+
+### Run CellFishing
+
+```
+julia cellfishing build Plass2018.dge.loom
+julia cellfishing search Plass2018.dge.loom.cf Plass2018.dge.loom >neighbors.tsv
+```
 
 ## auto_counttable_maker
 
@@ -313,3 +374,33 @@ $ julia -e 'using Pkg; Pkg.test("CellFishing")'
 [--validatemappings](https://salmon.readthedocs.io/en/latest/salmon.html#validatemappings)
 
 > One potential artifact that may arise from alignment-free mapping techniques is spurious mappings. These may either be reads that do not arise from some target being quantified, but nonetheless exhibit some match against them (e.g. contaminants) or, more commonly, mapping a read to a larger set of quantification targets than would be supported by an optimal or near-optimal alignment.
+
+ふむふむ。
+
+## 坊農さんの研究の話
+
+RNAseq, microarrayのメタアナリシス
+
+[biorxiv : Meta-analysis of hypoxic transcriptomes from public databases](https://www.biorxiv.org/content/biorxiv/early/2018/02/23/267310.full.pdf)
+
+いろんな組織の酸素応答をup,down,unchangedに落として、sum。すべてのデータtableなどをfigshareで公開。
+
+### データの作り方
+
+[AOE](http://aoe.dbcls.jp/)でcurationして、[google spreadsheetにまとめて](https://figshare.com/articles/Human_list_of_RNA-seq_datasets_before_and_after_hypoxic_stress/5811987/1)自動でRNA定量を行っていた。
+
+## tensorflow2.0 alpha
+
+まだalphaなので気長に待とう。[homepage](https://www.tensorflow.org/?hl=ja)もかっこよくなってる。
+
+[TensorFlow 2.0 Alpha](https://www.tensorflow.org/alpha)
+
+## デビル顔面腫瘍性疾患(DFTD）
+
+細胞自身が他の個体に移るらしい。これによりタスマニアデビルは絶滅の危機にさらされているらしい。
+
+## Dockerのエラー対処方法
+
+[DBCLS太田さん](https://github.com/inutano)に教えてもらった。
+
+DRUNの--rmを外して走らせて、終わったあとsalmonが落ちたらdocker inspect idでstatus0 or 1やメモリの量を調べる。
