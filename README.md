@@ -400,6 +400,7 @@ wget https://ndownloader.figshare.com/files/10842785
 mv 10842785 metadata_FACS.csv
 ```
 
+以下python。
 
 ```
 import numpy as np
@@ -461,10 +462,27 @@ adata_droplet = adata_droplet[df_anno_droplet.index,:]
 for c in df_anno_droplet.columns:
     adata_droplet.obs[c] = df_anno_droplet.loc[adata_droplet.obs.index, c]
 
-adata_droplet.write_loom('10x.loom')
+adata_droplet.write_loom(results_file_droplet)
 ```
 
-サーバー落ちた。
+サーバー落ちた。と思ったら復活した。
+
+```
+julia cellfishing build 20190307_tabula_muris_droplet.loom
+```
+
+ubuntu(RAM 64gb)でメモリエラー。jupyterが30Gbくらい食ってた。
+
+読み込めない。いろいろ調べると、loomファイルのrow_attrs,col_attrsはSeuratなどの標準で使われているGene, CellIDがscanpyで使われているvar_names, obs_namesと異なっているため読み込めないことがわかった。これを修正するためにloompyで新しいattrとして定義するといけた。
+
+```
+import loompy
+
+ds = loompy.connect("out.loom")
+ds.row_attrs['Gene'] = ds.row_attrs['var_names']
+ds.col_attrs['CellID'] = ds.col_attrs['obs_names']
+loompy.create("out.arr.loom", ds[:,:], ds.row_attrs, ds.col_attrs)
+```
 
 
 ## auto_counttable_maker
@@ -488,6 +506,9 @@ RNAseq, microarrayのメタアナリシス
 
 いろんな組織の酸素応答をup,down,unchangedに落として、sum。すべてのデータtableなどをfigshareで公開。
 
+↓資料
+[figshare : NBDC/DBCLSにおけるデータベース統合化とその活用事例](https://figshare.com/articles/NBDC_DBCLS________/7524872/1)
+
 ### データの作り方
 
 [AOE](http://aoe.dbcls.jp/)でcurationして、[google spreadsheetにまとめて](https://figshare.com/articles/Human_list_of_RNA-seq_datasets_before_and_after_hypoxic_stress/5811987/1)自動でRNA定量を行っていた。
@@ -510,4 +531,4 @@ DRUNの--rmを外して走らせて、終わったあとsalmonが落ちたらdoc
 
 ## 停電
 
-雷で停電した。ひえっ。
+雷で停電した。ひえっ。非常灯がついた。
