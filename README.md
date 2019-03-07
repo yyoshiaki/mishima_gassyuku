@@ -364,6 +364,109 @@ julia cellfishing build Plass2018.dge.loom
 julia cellfishing search Plass2018.dge.loom.cf Plass2018.dge.loom >neighbors.tsv
 ```
 
+### tabula muris
+
+- https://tabula-muris.ds.czbiohub.org/
+- https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE109774
+
+Abstract
+Tabula Muris is a compendium of single cell transcriptome data from the model organism Mus musculus, containing nearly 100,000 cells from 20 organs and tissues. The data allow for direct and controlled comparison of gene expression in cell types shared between tissues, such as immune cells from distinct anatomical locations. They also allow for a comparison of two distinct technical approaches:
+
+microfluidic droplet-based 3’-end counting: provides a survey of thousands of cells per organ at relatively low coverage
+FACS-based full length transcript analysis: provides higher sensitivity and coverage.
+We hope this rich collection of annotated cells will be a useful resource for:
+
+Defining gene expression in previously poorly-characterized cell populations.
+Validating findings in future targeted single-cell studies.
+Developing of methods for integrating datasets (eg between the FACS and droplet experiments), characterizing batch effects, and quantifying the variation of gene expression in a many cell types between organs and animals.
+The peer reviewed article describing the analysis and findings is available on Nature.
+
+[Figshare](https://figshare.com/projects/Tabula_Muris_Transcriptomic_characterization_of_20_organs_and_tissues_from_Mus_musculus_at_single_cell_resolution/27733)に公開されていた。以下の手順で`./data/tabula_muris`にダウンロード、解凍。
+
+```
+wget https://ndownloader.figshare.com/files/10700143
+unzip 10700143
+wget https://ndownloader.figshare.com/files/10700161
+mv 10700161 metadata_droplet.csv
+wget https://ndownloader.figshare.com/files/13088039
+mv 13088039 annotations_droplet.csv
+
+# droplet
+wget https://ndownloader.figshare.com/files/10700167
+unzip 10700167
+wget https://ndownloader.figshare.com/files/13088129
+mv 13088129 annotations_facs.csv
+wget https://ndownloader.figshare.com/files/10842785
+mv 10842785 metadata_FACS.csv
+```
+
+
+```
+import numpy as np
+import pandas as pd
+# import scanpy.api as sc
+import scanpy as sc # versin1.4 以降
+import matplotlib.pyplot as plt
+import os
+import seaborn as sns
+%matplotlib inline
+
+sc.settings.verbosity = 3  # verbosity: errors (0), warnings (1), info (2), hints (3)
+sc.settings.set_figure_params(dpi=80, color_map='viridis', transparent=False)  # low dpi (dots per inch) yields small inline figures
+
+import matplotlib as mpl
+# 2 lines below solved the facecolor problem.
+# mpl.rcParams['figure.facecolor'] = 'white'
+mpl.rcParams['figure.facecolor'] = (1,1,1,1)
+
+sc.settings.autosave = True
+sc.logging.print_version_and_date()
+sc.logging.print_versions_dependencies_numerics()
+# results_file = './scanpy/write/180313merge.mt.h5ad'
+# sc.settings.figdir = './scanpy/write/180313merge.mt/graph'
+# results_file = './scanpy/write/180514merge.mt.h5ad'
+# sc.settings.figdir = './scanpy/write/180514merge.mt/graph'
+# sc.settings.cachedir = './scanpy/write/180514merge.mt/cache'
+
+version_date = '20190307'
+results_file_facs = 'scdata/{}_tabula_muris_facs.loom'.format(version_date)
+results_file_droplet = 'scdata/{}_tabula_muris_droplet.loom'.format(version_date)
+sc.settings.figdir = 'scdata/{}_tabula_muris/graph'.format(version_date)
+%config InlineBackend.figure_format = 'retina'
+# %config InlineBackend.figure_format = 'svg'
+
+root_dir_data = 'data/tabula_muris/'
+
+list_csv_facs = [x for x in os.listdir(root_dir_data+'FACS') if x[-3:]=='csv']
+list_csv_droplet = [x for x in os.listdir(root_dir_data+'droplet') if x[0]!='.']
+
+for i, f in enumerate(list_csv_droplet):
+    if i == 0:
+        adata_droplet = sc.read_10x_mtx(root_dir_data+'droplet/'+f)
+        adata_droplet.obs.index = [f.split('-')[1]+'_'+x.split('-')[0] for x in adata_droplet.obs.index]
+    else:
+        _adata = sc.read_10x_mtx(root_dir_data+'droplet/'+f)
+        _adata.obs.index = [f.split('-')[1]+'_'+x.split('-')[0] for x in _adata.obs.index]
+        adata_droplet = adata_droplet.concatenate(_adata)
+
+_adata = 0
+adata_droplet.var = adata_droplet.var.drop(list(adata_droplet.var.columns), axis=1)
+adata_droplet.obs.index = [x.split('-')[0] for x in adata_droplet.obs.index]
+
+df_anno_droplet = pd.read_csv('data/tabula_muris/annotations_droplet.csv', index_col=0)
+df_anno_droplet.head()
+
+adata_droplet = adata_droplet[df_anno_droplet.index,:]
+
+for c in df_anno_droplet.columns:
+    adata_droplet.obs[c] = df_anno_droplet.loc[adata_droplet.obs.index, c]
+
+adata_droplet.write_loom('10x.loom')
+```
+
+サーバー落ちた。
+
+
 ## auto_counttable_maker
 
 アドバイスをいただく。
@@ -404,3 +507,7 @@ RNAseq, microarrayのメタアナリシス
 [DBCLS太田さん](https://github.com/inutano)に教えてもらった。
 
 DRUNの--rmを外して走らせて、終わったあとsalmonが落ちたらdocker inspect idでstatus0 or 1やメモリの量を調べる。
+
+## 停電
+
+雷で停電した。ひえっ。
