@@ -168,7 +168,7 @@ indexをつくる途中で止まっている。
 condaのほうが行けたので、いっそOS判別してmacだけcondaで動くようにしようかな。
 [Qiita : シェルスクリプトでOSを判別する](https://qiita.com/UmedaTakefumi/items/fe02d17264de6c78443d)
 
-macで割り振るメモリを増やすと動いた！！[DBCLS太田さん](https://github.com/inutano)に教えてもらった。詳しくは[https://github.com/yyoshiaki/auto_counttable_maker/blob/master/README.md#mac%E3%81%AE%E3%81%B2%E3%81%A8](https://github.com/yyoshiaki/auto_counttable_maker/blob/master/README.md#mac%E3%81%AE%E3%81%B2%E3%81%A8)。
+macで割り振るメモリを増やすと動いた！！[DBCLS大田さん](https://github.com/inutano)に教えてもらった。詳しくは[https://github.com/yyoshiaki/auto_counttable_maker/blob/master/README.md#mac%E3%81%AE%E3%81%B2%E3%81%A8](https://github.com/yyoshiaki/auto_counttable_maker/blob/master/README.md#mac%E3%81%AE%E3%81%B2%E3%81%A8)。
 
 ## kallisto output -> idep
 
@@ -504,7 +504,7 @@ RNAseq, microarrayのメタアナリシス
 
 ## Dockerのエラー対処方法
 
-[DBCLS太田さん](https://github.com/inutano)に教えてもらった。
+[DBCLS大田さん](https://github.com/inutano)に教えてもらった。
 
 DRUNの--rmを外して走らせて、終わったあとsalmonが落ちたらdocker inspect idでstatus0 or 1やメモリの量を調べる。
 
