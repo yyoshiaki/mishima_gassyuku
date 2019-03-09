@@ -72,13 +72,6 @@ grep -c \> Trinity.fasta
 
 でした。`-c`でカウント。28383 transcriptsでした。ちなみに中間ファイルは残っていたので同じコマンド（trinity）を実行し直すとすぐ戻った。バックアップは取りましょう。
 
-bonohuさんより
-
->grepの引数^\>の^は先頭にマッチ、\>は'>'という文字という意味である。
-'>'はUNIXコマンドラインにおいて特別な意味（リダイレクト）があるため、バックスラッシュ(\)をつけてその特別な意味を削ぎ落として単なる文字の'>'としてパターンマッチするという意味になる。
-そのため、バックスラッシュをつけることは必須である。
-なお、このバックスラッシュを忘れてしまった場合、grepの結果をリダイレクトするという意味になるため、検索する対象のファイルへ書き込むことになり、せっかくダウンロードしたファイルを破壊してしまうこととなるので十分に注意が必要である。
-
 ### blast
 
 作ったtranscriptのfastaを作って`makeblastdb`でblast databaseを作った。これでUniprotのfastaに対してローカルにblastのデータベースを作っておけば、いつでもblast検索がかけられる。配列だけではなく、例えばid listからtranscriptの配列を取り出したりも出来る。
@@ -125,8 +118,7 @@ blastdbcmd -db trinity_rslt -entry_batch longest_orfs.Forkhead.ids > longest_orf
 - Shift-F3 : 次のスプリットに切り替える
 - Shift-F4 : 前のスプリットに切り替える
 
-しかしMBPで落ちまくる。落ちるタイミングはconfigを開こうとしたとき。
-ターミナルのプロファイルで背景色をサーバーごとに変えるとわかりやすい、
+しかしMBPで落ちまくるのでひとまず放置。落ちるタイミングはconfigを開こうとしたとき。
 
 
 ## QuickLookのプラグインがいっぱいある
@@ -215,10 +207,6 @@ suppressWarnings({dds <- DESeqDataSet(gse, ~1)})
 dds <- estimateSizeFactors(dds)
 ```
 
-## ensembl biomart
-
-symbolとGO nameをtableにしてダウンロードしておくと、gene descriptionがつけれて良さそう。どこかに保存しておこう。
-
 ## R update on Mac
 
 久々のローカル環境で、Rが3.4だったため、アップデートを試みる。
@@ -257,14 +245,14 @@ FANTOMの可視化。今のようなgenomeに対する可視化ではなく、cD
 ```
 import pandas as pd
 
-df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.csv', comment='#')
+df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.txt', sep='\t', comment='#')
 ```
 
 実験医学の別刷りもらった。わーい。
 
 ## ドーミーイン三島
 
-屋上の露天風呂から富士山がみえる（~~らしい~~ 最終日見えました！わーい）。場所も三島から歩いて5分以内でいい感じ。どうやらここが正解と思っていいらしい。ただし、初日回線が100kb/sでgtfのダウンロードすらままならなかった。その後は比較的速く、隣人のネット状況に依存するように思う。優先との速度比較を行った。
+屋上の露天風呂から富士山がみえる（らしい）。場所も三島から歩いて5分以内でいい感じ。どうやらここが正解と思っていいらしい。ただし、初日回線が100kb/sでgtfのダウンロードすらままならなかった。その後は比較的速く、隣人のネット状況に依存するように思う。優先との速度比較を行った。
 
 - 無線 : 8-12Mb/s
 - 有線 : 計測できず。 -> 30Mb/s
@@ -277,7 +265,6 @@ df = pd.read_csv('http://gggenome.dbcls.jp/mm10/2/+/TTCATTGACAACATTGCGT.csv', co
 ## 2400c
 
 ![img](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/PowerBook2400c_180.jpg/300px-PowerBook2400c_180.jpg)
-(wikipediaより)
 
 ## loomの話
 
@@ -377,7 +364,7 @@ julia cellfishing build Plass2018.dge.loom
 julia cellfishing search Plass2018.dge.loom.cf Plass2018.dge.loom >neighbors.tsv
 ```
 
-### tabula murisのloomをcellfishing.jl用に作る。
+### tabula muris
 
 - https://tabula-muris.ds.czbiohub.org/
 - https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE109774
@@ -411,9 +398,6 @@ wget https://ndownloader.figshare.com/files/13088129
 mv 13088129 annotations_facs.csv
 wget https://ndownloader.figshare.com/files/10842785
 mv 10842785 metadata_FACS.csv
-
-pip install -U loompy
-mkdir scdata
 ```
 
 以下python。
@@ -489,7 +473,7 @@ julia cellfishing build 20190307_tabula_muris_droplet.loom
 
 ubuntu(RAM 64gb)でメモリエラー。jupyterが30Gbくらい食ってた。
 
-メモリエラーは解決したが、読み込めない。いろいろ調べると、loomファイルのrow_attrs,col_attrsはSeuratなどの標準で使われているGene, CellIDがscanpyで使われているvar_names, obs_namesと異なっているため読み込めないことがわかった。これを修正するためにloompyで新しいattrとして定義するといけた。ファイル名は適当に変えてください。
+読み込めない。いろいろ調べると、loomファイルのrow_attrs,col_attrsはSeuratなどの標準で使われているGene, CellIDがscanpyで使われているvar_names, obs_namesと異なっているため読み込めないことがわかった。これを修正するためにloompyで新しいattrとして定義するといけた。
 
 ```
 import loompy
@@ -500,19 +484,13 @@ ds.col_attrs['CellID'] = ds.col_attrs['obs_names']
 loompy.create("out.arr.loom", ds[:,:], ds.row_attrs, ds.col_attrs)
 ```
 
-```
-julia cellfishing build 20190307_tabula_muris_droplet.loom
-julia cellfishing search 20190307_tabula_muris_droplet.loom.cf 20190307_tabula_muris_droplet.loom >neighbors.tsv
-```
 
-最後tabula murisのEDA的なものができたらそれを掲載して日誌終了にしようと思います。
-
-## [auto_counttable_maker](https://github.com/yyoshiaki/auto_counttable_maker)
+## auto_counttable_maker
 
 アドバイスをいただく。
 
-- ['--validateMappings' option to 'salmon quant' #16](https://github.com/yyoshiaki/auto_counttable_maker/issues/16) : Hiroseさんに割り振った -> PRきた
-- [fasterq-dump #17](https://github.com/yyoshiaki/auto_counttable_maker/issues/17) : fasterq-dumpオプション少ないので、条件分岐させといた。
+- ['--validateMappings' option to 'salmon quant' #16](https://github.com/yyoshiaki/auto_counttable_maker/issues/16)
+- [fasterq-dump #17](https://github.com/yyoshiaki/auto_counttable_maker/issues/17)
 
 [--validatemappings](https://salmon.readthedocs.io/en/latest/salmon.html#validatemappings)
 
@@ -554,16 +532,3 @@ DRUNの--rmを外して走らせて、終わったあとsalmonが落ちたらdoc
 ## 停電
 
 雷で停電した。ひえっ。非常灯がついた。
-
-## gzipのマルチコア版 pigz
-
-```
-conda install -c anaconda pigz
-```
-
-docker imageを見つけたので[auto_counttable_maker](https://github.com/yyoshiaki/auto_counttable_maker)にも入れた。
-
-## 富士山
-
-最終日、とうとう念願の富士山を温泉から見ることができた。うれしい。
-![img](img/IMG_0438.jpg)
