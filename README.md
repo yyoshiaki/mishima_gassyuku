@@ -507,6 +507,16 @@ julia cellfishing search 20190307_tabula_muris_droplet.loom.cf 20190307_tabula_m
 
 最後tabula murisのEDA的なものができたらそれを掲載して日誌終了にしようと思います。
 
+64GBじゃメモリ足りません！
+
+![img](img/umap_10x_co.png)
+
+![img](img/umap_10x_tcell.png)
+
+![img](img/umap_10x_thymus.png)
+
+詳しくは**[notebook](csv2loom/tabula_muris.ipynb)**
+
 ## [auto_counttable_maker](https://github.com/yyoshiaki/auto_counttable_maker)
 
 アドバイスをいただく。
