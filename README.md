@@ -515,7 +515,7 @@ julia cellfishing search 20190307_tabula_muris_droplet.loom.cf 20190307_tabula_m
 
 ![img](img/umap_10x_thymus.png)
 
-詳しくは**[notebook](csv2loom/tabula_muris.ipynb)**
+詳しくは**[notebook](https://nbviewer.jupyter.org/github/yyoshiaki/mishima_gassyuku/blob/master/csv2loom/tabula_muris.ipynb)**
 
 ## [auto_counttable_maker](https://github.com/yyoshiaki/auto_counttable_maker)
 
