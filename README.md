@@ -501,21 +501,25 @@ loompy.create("out.arr.loom", ds[:,:], ds.row_attrs, ds.col_attrs)
 ```
 
 ```
-julia cellfishing build 20190307_tabula_muris_droplet.loom
-julia cellfishing search 20190307_tabula_muris_droplet.loom.cf 20190307_tabula_muris_droplet.loom >neighbors.tsv
+julia cellfishing build 20190307_tabula_muris_droplet.cf.loom
+julia cellfishing search 20190307_tabula_muris_droplet.cf.loom.cf 20190307_tabula_muris_droplet.cf.loom > neighbors_tabula_muris.tsv
 ```
 
 最後tabula murisのEDA的なものができたらそれを掲載して日誌終了にしようと思います。
 
-64GBじゃメモリ足りません！
+64GBじゃメモリ足りません！とりあえず10xの結果だけ。本当はmerge, batch effect 除去をしたい。
 
 ![img](img/umap_10x_co.png)
 
+T cells
 ![img](img/umap_10x_tcell.png)
 
+Thymus
 ![img](img/umap_10x_thymus.png)
 
-詳しくは**[notebook](https://nbviewer.jupyter.org/github/yyoshiaki/mishima_gassyuku/blob/master/csv2loom/tabula_muris.ipynb)**
+詳しくは **[notebook](https://nbviewer.jupyter.org/github/yyoshiaki/mishima_gassyuku/blob/master/csv2loom/tabula_muris.ipynb)**
+
+CellFishingの結果をannotationしたのはこちらの **[notebook](https://nbviewer.jupyter.org/github/yyoshiaki/mishima_gassyuku/blob/master/csv2loom/cf_tabula_muris.ipynb)**
 
 ## [auto_counttable_maker](https://github.com/yyoshiaki/auto_counttable_maker)
 
